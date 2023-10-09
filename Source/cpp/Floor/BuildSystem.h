@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../Main/MyCharacter.h"
 #include "BuildSystem.generated.h"
 
 
@@ -24,5 +25,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	AMyCharacter* Player;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	float BuildDistance = 500;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	FVector BuildLocation;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	UObject* BuildItem = nullptr;
+
+	void SetPlayer(AMyCharacter* value);
+	void SetBuild();
+	void UnsetBuild();
+	bool Building();
 };

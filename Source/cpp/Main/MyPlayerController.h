@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MyCharacter.h"
+#include "cpp/Floor/BuildSystem.h"
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
@@ -48,6 +49,9 @@ public:
 
 	UPROPERTY(EditInstanceOnly, Category= "Basic Config")
 	bool IsThirldView = true;
+
+	UPROPERTY(EditInstanceOnly, Category= "Basic Config")
+	UBuildSystem* BuildSystem;
 	
 	void MoveForward(float value);
 	void MoveRight(float value);

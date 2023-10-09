@@ -2,6 +2,9 @@
 
 
 #include "BuildSystem.h"
+#include "../Main/MyCharacter.h"
+#include "Floor.h"
+#include "Animation/BlendSpaceBase.h"
 
 // Sets default values for this component's properties
 UBuildSystem::UBuildSystem()
@@ -31,4 +34,38 @@ void UBuildSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 
 	// ...
 }
+
+void UBuildSystem::SetPlayer(AMyCharacter* value)
+{
+	this -> Player = value;
+}
+
+void UBuildSystem::SetBuild()
+{
+	if(BuildItem != nullptr)
+	{
+		return;
+	}
+	BuildItem = GetWorld() -> SpawnActor<AFloor>(FVector(0, 0, -100000), FRotator::ZeroRotator);
+	Cast<AFloor>(BuildItem) -> SetCollision(ECollisionEnabled::QueryOnly);
+}
+
+void UBuildSystem::UnsetBuild()
+{
+	if(BuildItem == nullptr)
+	{
+		return;
+	}
+	GetWorld()->DestroyActor(Cast<AFloor>(BuildItem));
+	BuildItem = nullptr;
+}
+
+bool UBuildSystem::Building()
+{
+	return true;
+}
+
+
+
+
 
