@@ -16,7 +16,7 @@ void AFloor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AFloor::OnOverlapBegin);
+	//BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AFloor::OnOverlapBegin);
 }
 
 // Called every frame
