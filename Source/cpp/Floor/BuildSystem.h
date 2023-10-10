@@ -41,4 +41,5 @@ public:
 	void SetBuild();
 	void UnsetBuild();
 	bool Building();
+	void BlurAttach();
 };

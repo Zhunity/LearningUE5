@@ -23,6 +23,7 @@ void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	Main = Cast<AMyCharacter>(GetCharacter());
+	BuildSystem->SetPlayer(Main);
 }
 
 // Called every frame

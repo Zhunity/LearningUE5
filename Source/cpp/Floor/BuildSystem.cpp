@@ -33,6 +33,7 @@ void UBuildSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	BlurAttach();
 	// ...
 }
 
@@ -79,6 +80,32 @@ bool UBuildSystem::Building()
 	BuildItem = nullptr;
 	return true;
 }
+
+void UBuildSystem::BlurAttach()
+{
+	if(BuildItem == nullptr)
+	{
+		return;
+	}
+	FRotator viewRotation = Player ->GetController() -> GetControlRotation();
+	FVector mainLocation = Player -> GetActorLocation();
+	float angle = 90 - (360 - viewRotation.Pitch );
+	if(angle <= 0)
+	{
+		angle = 89;
+	}
+	BuildDistance = FMath::Tan(FMath::DegreesToRadians(angle)) * mainLocation.Z;
+	if(BuildDistance > 1000)
+	{
+		BuildDistance = 1000;
+	}
+	float x = FMath::Cos(FMath::DegreesToRadians(viewRotation.Yaw)) * BuildDistance;
+	float y = FMath::Sin(FMath::DegreesToRadians(viewRotation.Yaw)) * BuildDistance;
+	BuildLocation = FVector(mainLocation.X, mainLocation.Y, mainLocation.Z) + FVector(x, y, -100);
+	Cast<AFloor>(BuildItem) -> SetActorLocation(BuildLocation);
+	Cast<AFloor>(BuildItem) -> SetActorRotation(FRotator(0, viewRotation.Yaw, 0));
+}
+
 
 
 
