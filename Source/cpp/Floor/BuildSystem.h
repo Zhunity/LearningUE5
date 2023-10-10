@@ -5,8 +5,44 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "../Main/MyCharacter.h"
+#include "FramePro/FramePro.h"
 #include "BuildSystem.generated.h"
 
+USTRUCT(BlueprintType)
+struct FBuildCache
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	float HealthPoints;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	FString Type;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	FString Token;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	UObject* Building;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	FVector Location;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	FRotator Rotation;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	bool Right = false;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	bool Left = false;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	bool Low = false;
+
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	bool Up = false;
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CPP_API UBuildSystem : public UActorComponent
@@ -37,6 +73,9 @@ public:
 	UPROPERTY(EditInstanceOnly, Category="Basic Config")
 	UObject* BuildItem = nullptr;
 
+	UPROPERTY(EditInstanceOnly, Category="Basic Config")
+	TArray<FBuildCache> Saving;
+	
 	void SetPlayer(AMyCharacter* value);
 	void SetBuild();
 	void UnsetBuild();

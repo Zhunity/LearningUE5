@@ -77,6 +77,15 @@ bool UBuildSystem::Building()
 	Cast<AFloor>(BuildItem) ->StaticMeshComponent ->SetMobility(EComponentMobility::Stationary);
 	Cast<AFloor>(BuildItem) -> SetCollision(ECollisionEnabled::QueryAndPhysics);
 	Cast<AFloor>(BuildItem) -> SetMaterail(TEXT("/Script/Engine.MaterialFunction'/Game/Characters/Mannequin_UE4/Materials/Layers/ML_ShinyPlastic_Beige.ML_ShinyPlastic_Beige'"));
+
+	FBuildCache cache;
+	cache.HealthPoints = 100;
+	cache.Type = TEXT("Floor");
+	cache.Building = BuildItem;
+	cache.Location = BuildLocation;
+	cache.Rotation = Cast<AFloor>(BuildItem) -> GetActorRotation();
+	Saving.Emplace(cache);
+
 	BuildItem = nullptr;
 	return true;
 }
