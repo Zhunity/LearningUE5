@@ -12,9 +12,10 @@ AFloor::AFloor()
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("UBoxComponent"));
 	BoxComponent->InitBoxExtent(FVector(HalfXY, HalfXY, HalfZ));
 	SetRootComponent(BoxComponent);
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> Floor(TEXT(""));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Floor(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("UStaticMeshComponent"));
 	StaticMeshComponent->SetupAttachment(RootComponent);
+	StaticMeshComponent -> SetStaticMesh(Floor.Object);
 	StaticMeshComponent->SetRelativeScale3D(FVector(HalfXY / XYZScale, HalfXY / XYZScale, HalfZ / XYZScale));
 	StaticMeshComponent ->SetRelativeLocation(FVector(0, 0, -HalfZ));
 }
@@ -23,7 +24,7 @@ AFloor::AFloor()
 void AFloor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	SetMaterail(TEXT("/Script/Engine.MaterialFunction'/Game/Characters/Mannequin_UE4/Materials/Layers/ML_SoftMetal.ML_SoftMetal'"));
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AFloor::OnOverlapBegin);
 	BoxComponent->OnComponentEndOverlap.AddDynamic(this, &AFloor::OnOverlapEnd);
 }

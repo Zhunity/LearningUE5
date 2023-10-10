@@ -52,12 +52,19 @@ public:
 
 	UPROPERTY(EditInstanceOnly, Category= "Basic Config")
 	UBuildSystem* BuildSystem;
+
+	UPROPERTY(EditInstanceOnly, Category= "Basic Config")
+	bool IsBuildMode = false;
 	
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void Jump();
 	void MouseWheelUp();
 	void MouseWheelDown();
+
+	void PressOne();
+	void MouseLeft();
+	void MouseRight();
 	
 
 private :

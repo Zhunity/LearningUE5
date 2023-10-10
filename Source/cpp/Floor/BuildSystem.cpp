@@ -5,6 +5,7 @@
 #include "../Main/MyCharacter.h"
 #include "Floor.h"
 #include "Animation/BlendSpaceBase.h"
+#include "cpp/Main/Lib.h"
 
 // Sets default values for this component's properties
 UBuildSystem::UBuildSystem()
@@ -46,7 +47,7 @@ void UBuildSystem::SetBuild()
 	{
 		return;
 	}
-	BuildItem = GetWorld() -> SpawnActor<AFloor>(FVector(0, 0, -100000), FRotator::ZeroRotator);
+	BuildItem = GetWorld() -> SpawnActor<AFloor>(FVector(-200, 0, 110), FRotator::ZeroRotator);
 	Cast<AFloor>(BuildItem) -> SetCollision(ECollisionEnabled::QueryOnly);
 }
 
@@ -62,6 +63,20 @@ void UBuildSystem::UnsetBuild()
 
 bool UBuildSystem::Building()
 {
+	if(BuildItem == nullptr)
+	{
+		return false;
+	}
+	bool isBlock = Cast<AFloor>(BuildItem) -> IsBlock;
+	if(isBlock)
+	{
+		Lib::echo(TEXT("block"));
+		return false;
+	}
+	Cast<AFloor>(BuildItem) ->StaticMeshComponent ->SetMobility(EComponentMobility::Stationary);
+	Cast<AFloor>(BuildItem) -> SetCollision(ECollisionEnabled::QueryAndPhysics);
+	Cast<AFloor>(BuildItem) -> SetMaterail(TEXT("/Script/Engine.MaterialFunction'/Game/Characters/Mannequin_UE4/Materials/Layers/ML_ShinyPlastic_Beige.ML_ShinyPlastic_Beige'"));
+	BuildItem = nullptr;
 	return true;
 }
 

@@ -15,7 +15,7 @@ AMyPlayerController::AMyPlayerController()
 void AMyPlayerController::Construct()
 {
 	InputComponent = CreateDefaultSubobject<UInputComponent>(TEXT("here?"));
-	
+	BuildSystem = CreateDefaultSubobject<UBuildSystem>(TEXT("BUildSystem"));
 }
 
 
@@ -43,6 +43,10 @@ void AMyPlayerController::SetupInputComponent()
 	InputComponent -> BindAction("Jump", IE_Pressed, this, &AMyPlayerController::Jump);
 	InputComponent -> BindAction("MouseWheelDown", IE_Pressed, this, &AMyPlayerController::MouseWheelDown);
 	InputComponent -> BindAction("MouseWheelUp", IE_Pressed, this, &AMyPlayerController::MouseWheelUp);
+
+	InputComponent -> BindAction("PressOne", IE_Pressed, this, &AMyPlayerController::PressOne);
+	InputComponent -> BindAction("MouseLeft", IE_Pressed, this, &AMyPlayerController::MouseLeft);
+	InputComponent -> BindAction("MouseRight", IE_Pressed, this, &AMyPlayerController::MouseRight);
 }
 
 void AMyPlayerController::MoveForward(float value)
@@ -144,6 +148,46 @@ void AMyPlayerController::MouseWheelUp()
 		}
 	}
 }
+
+void AMyPlayerController::PressOne()
+{
+	IsBuildMode = !IsBuildMode;
+	if(IsBuildMode)
+	{
+		BuildSystem->SetBuild();
+	}
+	else
+	{
+		BuildSystem->UnsetBuild();
+	}
+	
+}
+
+void AMyPlayerController::MouseLeft()
+{
+	if(!IsBuildMode)
+	{
+		return;
+	}
+	if(!BuildSystem->Building())
+	{
+		return;
+	}
+	IsBuildMode = false;
+}
+
+void AMyPlayerController::MouseRight()
+{
+	if(!IsBuildMode)
+	{
+		return;
+	}
+	BuildSystem->UnsetBuild();
+	IsBuildMode = false;
+}
+
+
+
 
 void AMyPlayerController::MoveAnimSwitch()
 {
