@@ -3,3 +3,6 @@ Binaries
 Intermediate
 DerivedDataCache
 Saved
+/.vs
+/*.sln
+/.vsconfig

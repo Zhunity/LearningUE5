@@ -105,7 +105,7 @@ void AMyPlayerController::Jump()
 void AMyPlayerController::MouseWheelDown()
 {
 	float armLength = Main ->SpringArmComponent ->TargetArmLength + 50;
-	armLength = MAX(MIN(armLength, 600), 0);
+	armLength = FMath::Max(FMath::Min(armLength, 600), 0);
 	Main ->SpringArmComponent ->TargetArmLength = armLength;
 	if(armLength <= 0)
 	{
@@ -129,7 +129,7 @@ void AMyPlayerController::MouseWheelDown()
 void AMyPlayerController::MouseWheelUp()
 {
 	float armLength = Main ->SpringArmComponent ->TargetArmLength -50;
-	armLength = MAX(MIN(armLength, 600), 0);
+	armLength = FMath::Max(FMath::Min(armLength, 600), 0);
 	Main ->SpringArmComponent ->TargetArmLength = armLength;
 	if(armLength <= 0)
 	{
