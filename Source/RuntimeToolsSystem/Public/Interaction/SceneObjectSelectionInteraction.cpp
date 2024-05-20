@@ -1,6 +1,5 @@
 
 #include "SceneObjectSelectionInteraction.h"
-#include "MeshScene/RuntimeMeshSceneSubsystem.h"
 
 
 void USceneObjectSelectionInteraction::Initialize(TUniqueFunction<bool()> CanChangeSelectionCallbackIn)
@@ -44,25 +43,25 @@ FInputRayHit USceneObjectSelectionInteraction::IsHitByClick(const FInputDeviceRa
 	FVector HitPoint, BaryCoords;
 	float HitDist;
 	int32 HitTri;
-	URuntimeMeshSceneObject* HitObject = URuntimeMeshSceneSubsystem::Get()->FindNearestHitObject(
-		ClickPos.WorldRay.Origin, ClickPos.WorldRay.Direction, HitPoint, HitDist, HitTri, BaryCoords);
+	//UObject* HitObject = URuntimeMeshSceneSubsystem::Get()->FindNearestHitObject(
+	//	ClickPos.WorldRay.Origin, ClickPos.WorldRay.Direction, HitPoint, HitDist, HitTri, BaryCoords);
 
-	if (HitObject != nullptr)
-	{
-		RayHit.bHit = true;
-		RayHit.HitDepth = HitDist;
-		//RayHit.HitNormal = ;			// todo - can compute from bary coords
-		//RayHit.bHasHitNormal = ;		// todo - can compute from bary coords
-		RayHit.HitIdentifier = HitTri;
-		RayHit.HitOwner = HitObject;
-	}
-	else 
-	{
-		RayHit.bHit = true;
-		RayHit.HitDepth = TNumericLimits<float>::Max();
-		RayHit.HitIdentifier = 0;
-		RayHit.HitOwner = this;
-	}
+	//if (HitObject != nullptr)
+	//{
+	//	RayHit.bHit = true;
+	//	RayHit.HitDepth = HitDist;
+	//	//RayHit.HitNormal = ;			// todo - can compute from bary coords
+	//	//RayHit.bHasHitNormal = ;		// todo - can compute from bary coords
+	//	RayHit.HitIdentifier = HitTri;
+	//	RayHit.HitOwner = HitObject;
+	//}
+	//else 
+	//{
+	//	RayHit.bHit = true;
+	//	RayHit.HitDepth = TNumericLimits<float>::Max();
+	//	RayHit.HitIdentifier = 0;
+	//	RayHit.HitOwner = this;
+	//}
 	return RayHit;
 }
 
@@ -71,10 +70,10 @@ void USceneObjectSelectionInteraction::OnClicked(const FInputDeviceRay& ClickPos
 	FVector HitPoint, BaryCoords;
 	float HitDist;
 	int32 HitTri;
-	URuntimeMeshSceneObject* HitObject = URuntimeMeshSceneSubsystem::Get()->FindNearestHitObject(
-		ClickPos.WorldRay.Origin, ClickPos.WorldRay.Direction, HitPoint, HitDist, HitTri, BaryCoords);
+	/*UObject* HitObject = URuntimeMeshSceneSubsystem::Get()->FindNearestHitObject(
+		ClickPos.WorldRay.Origin, ClickPos.WorldRay.Direction, HitPoint, HitDist, HitTri, BaryCoords);*/
 
-	if (HitObject != nullptr)
+	/*if (HitObject != nullptr)
 	{
 		if (bAddToSelectionEnabled)
 		{
@@ -92,6 +91,6 @@ void USceneObjectSelectionInteraction::OnClicked(const FInputDeviceRay& ClickPos
 	else
 	{
 		URuntimeMeshSceneSubsystem::Get()->ClearSelection();
-	}
+	}*/
 
 }

@@ -5,8 +5,8 @@
 
 #include "ToolContextInterfaces.h"
 #include "ToolsContextActor.h"
-#include "MeshScene/RuntimeMeshSceneSubsystem.h"
-#include "GeneratedMesh.h"
+//#include "MeshScene/RuntimeMeshSceneSubsystem.h"
+//#include "GeneratedMesh.h"
 
 #include "Framework/Application/SlateApplication.h"
 #include "Slate/SceneViewport.h"
@@ -16,7 +16,7 @@
 
 #include "ContextObjectStore.h"
 #include "ToolTargetManager.h"
-#include "RuntimeDynamicMeshComponentToolTarget.h"
+//#include "RuntimeDynamicMeshComponentToolTarget.h"
 
 #include "Materials/Material.h"
 
@@ -24,7 +24,7 @@
 #include "BaseGizmos/TransformGizmoUtil.h"
 #include "BaseGizmos/GizmoViewContext.h"
 
-#include "RuntimeModelingObjectsCreationAPI.h"
+//#include "RuntimeModelingObjectsCreationAPI.h"
 
 
 
@@ -60,12 +60,12 @@ public:
 		StateOut.GizmoManager = ToolsContext->GizmoManager;
 		StateOut.World = TargetWorld;
 
-		const TArray<URuntimeMeshSceneObject*>& Selection = URuntimeMeshSceneSubsystem::Get()->GetSelection();
+	/*	const TArray<URuntimeMeshSceneObject*>& Selection = URuntimeMeshSceneSubsystem::Get()->GetSelection();
 		for (URuntimeMeshSceneObject* SO : Selection)
 		{
 			StateOut.SelectedActors.Add(SO->GetActor());
 			StateOut.SelectedComponents.Add(SO->GetMeshComponent());
-		}
+		}*/
 	}
 
 	virtual void GetCurrentViewState(FViewCameraState& StateOut) const override
@@ -247,10 +247,10 @@ void URuntimeToolsFrameworkSubsystem::InitializeToolsContext(UWorld* TargetWorld
 
 	// create PDI rendering bridge Component
 	FActorSpawnParameters SpawnInfo;
-	PDIRenderActor = TargetWorld->SpawnActor<AActor>(FVector::ZeroVector, FRotator(0,0,0), SpawnInfo);
-	PDIRenderComponent = NewObject<UToolsContextRenderComponent>(PDIRenderActor);
-	PDIRenderActor->SetRootComponent(PDIRenderComponent);
-	PDIRenderComponent->RegisterComponent();
+	//PDIRenderActor = TargetWorld->SpawnActor<AActor>(FVector::ZeroVector, FRotator(0,0,0), SpawnInfo);
+	//PDIRenderComponent = NewObject<UToolsContextRenderComponent>(PDIRenderActor);
+	//PDIRenderActor->SetRootComponent(PDIRenderComponent);
+	//PDIRenderComponent->RegisterComponent();
 
 
 	// have to disable this for current tools framework handling of property defaults.
@@ -267,7 +267,7 @@ void URuntimeToolsFrameworkSubsystem::InitializeToolsContext(UWorld* TargetWorld
 	UE::TransformGizmoUtil::RegisterTransformGizmoContextObject(ToolsContext);
 
 	// register object creation API
-	URuntimeModelingObjectsCreationAPI* ModelCreationAPI = URuntimeModelingObjectsCreationAPI::Register(ToolsContext);
+	//URuntimeModelingObjectsCreationAPI* ModelCreationAPI = URuntimeModelingObjectsCreationAPI::Register(ToolsContext);
 
 }
 

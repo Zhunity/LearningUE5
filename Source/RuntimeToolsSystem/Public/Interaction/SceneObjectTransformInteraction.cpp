@@ -1,8 +1,6 @@
 
 #include "SceneObjectTransformInteraction.h"
 
-#include "MeshScene/RuntimeMeshSceneSubsystem.h"
-#include "RuntimeToolsFramework/RuntimeToolsFrameworkSubsystem.h"
 
 #include "BaseGizmos/CombinedTransformGizmo.h"
 #include "BaseGizmos/TransformProxy.h"
@@ -12,10 +10,10 @@ void USceneObjectTransformInteraction::Initialize(TUniqueFunction<bool()> GizmoE
 {
 	GizmoEnabledCallback = MoveTemp(GizmoEnabledCallbackIn);
 
-	SelectionChangedEventHandle = URuntimeMeshSceneSubsystem::Get()->OnSelectionModified.AddLambda([this](URuntimeMeshSceneSubsystem* SceneSubsystem)
+	/*SelectionChangedEventHandle = URuntimeMeshSceneSubsystem::Get()->OnSelectionModified.AddLambda([this](URuntimeMeshSceneSubsystem* SceneSubsystem)
 	{
 		UpdateGizmoTargets(SceneSubsystem->GetSelection());
-	});
+	});*/
 
 }
 
@@ -23,10 +21,10 @@ void USceneObjectTransformInteraction::Shutdown()
 {
 	if (SelectionChangedEventHandle.IsValid())
 	{
-		if (URuntimeMeshSceneSubsystem::Get())
+	/*	if (URuntimeMeshSceneSubsystem::Get())
 		{
 			URuntimeMeshSceneSubsystem::Get()->OnSelectionModified.Remove(SelectionChangedEventHandle);
-		}
+		}*/
 		SelectionChangedEventHandle = FDelegateHandle();
 	}
 
@@ -55,10 +53,10 @@ void USceneObjectTransformInteraction::SetEnableNonUniformScaling(bool bEnable)
 
 void USceneObjectTransformInteraction::ForceUpdateGizmoState()
 {
-	if (URuntimeMeshSceneSubsystem::Get())
+	/*if (URuntimeMeshSceneSubsystem::Get())
 	{
 		UpdateGizmoTargets(URuntimeMeshSceneSubsystem::Get()->GetSelection());
-	}
+	}*/
 }
 
 
