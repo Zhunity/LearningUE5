@@ -1,7 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ToolsFrameworkDemoGameModeBase.h"
+
+#include "RuntimeToolsFramework/RuntimeToolsFrameworkSubsystem.h"
+#include "MeshScene/RuntimeMeshSceneSubsystem.h"
+
+#include "AddPrimitiveTool.h"
+#include "DrawAndRevolveTool.h"
+#include "MeshVertexSculptTool.h"
+#include "PlaneCutTool.h"
+
+#include "Tools/RuntimeDrawPolygonTool.h"
+#include "Tools/RuntimeDynamicMeshSculptTool.h"
+#include "Tools/RuntimeRemeshMeshTool.h"
+#include "Tools/RuntimeMeshBooleanTool.h"
+#include "Tools/RuntimePolyEditTool.h"
+
 
 AToolsFrameworkDemoGameModeBase::AToolsFrameworkDemoGameModeBase()
 {
@@ -12,9 +24,10 @@ AToolsFrameworkDemoGameModeBase::AToolsFrameworkDemoGameModeBase()
 
 void AToolsFrameworkDemoGameModeBase::StartPlay()
 {
-	//Super::StartPlay();
+	Super::StartPlay();
 	InitializeToolsSystem();
 }
+
 
 void AToolsFrameworkDemoGameModeBase::InitializeToolsSystem()
 {
@@ -23,18 +36,74 @@ void AToolsFrameworkDemoGameModeBase::InitializeToolsSystem()
 	check(World && GameInstance);
 
 	// create Scene subsystem
-	//SceneSystem = UGameInstance::GetSubsystem<URuntimeMeshSceneSubsystem>(GameInstance);
-	//URuntimeMeshSceneSubsystem::InitializeSingleton(SceneSystem);
+	SceneSystem = UGameInstance::GetSubsystem<URuntimeMeshSceneSubsystem>(GameInstance);
+	URuntimeMeshSceneSubsystem::InitializeSingleton(SceneSystem);
 
 	// create Tools subsystem
 	ToolsSystem = UGameInstance::GetSubsystem<URuntimeToolsFrameworkSubsystem>(GameInstance);
 	URuntimeToolsFrameworkSubsystem::InitializeSingleton(ToolsSystem);
 
-	check(/*SceneSystem && */ToolsSystem);
+	check(SceneSystem && ToolsSystem);
 
 	// initialize Tools and Scene systems
 	ToolsSystem->InitializeToolsContext(World);
-	//SceneSystem->SetCurrentTransactionsAPI(ToolsSystem->GetTransactionsAPI());
+	SceneSystem->SetCurrentTransactionsAPI(ToolsSystem->GetTransactionsAPI());
 
 	RegisterTools();
 }
+
+
+void AToolsFrameworkDemoGameModeBase::RegisterTools()
+{
+	UInteractiveToolManager* ToolManager = ToolsSystem->ToolsContext->ToolManager;
+
+	auto AddPrimitiveToolBuilder = NewObject<UAddPrimitiveToolBuilder>();
+	AddPrimitiveToolBuilder->ShapeType = UAddPrimitiveToolBuilder::EMakeMeshShapeType::Box;
+	ToolManager->RegisterToolType("AddPrimitiveBox", AddPrimitiveToolBuilder);
+
+	auto DrawPolygonToolBuilder = NewObject<URuntimeDrawPolygonToolBuilder>();
+	ToolManager->RegisterToolType("DrawPolygon", DrawPolygonToolBuilder);
+
+	auto PolyRevolveToolBuilder = NewObject<UDrawAndRevolveToolBuilder>();
+	ToolManager->RegisterToolType("PolyRevolve", PolyRevolveToolBuilder);
+
+	auto PolyEditToolBuilder = NewObject<URuntimePolyEditToolBuilder>();
+	ToolManager->RegisterToolType("EditPolygons", PolyEditToolBuilder);
+
+	auto MeshPlaneCutToolBuilder = NewObject<UPlaneCutToolBuilder>();
+	ToolManager->RegisterToolType("PlaneCut", MeshPlaneCutToolBuilder);
+
+	auto RemeshMeshToolBuilder = NewObject<URuntimeRemeshMeshToolBuilder>();
+	ToolManager->RegisterToolType("RemeshMesh", RemeshMeshToolBuilder);
+
+	auto VertexSculptToolBuilder = NewObject<UMeshVertexSculptToolBuilder>();
+	ToolManager->RegisterToolType("VertexSculpt", VertexSculptToolBuilder);
+
+	auto DynaSculptToolBuilder = NewObject<URuntimeDynamicMeshSculptToolBuilder>();
+	DynaSculptToolBuilder->bEnableRemeshing = true;
+	ToolManager->RegisterToolType("DynaSculpt", DynaSculptToolBuilder);
+
+	auto MeshBooleanToolBuilder = NewObject<URuntimeMeshBooleanToolBuilder>();
+	ToolManager->RegisterToolType("MeshBoolean", MeshBooleanToolBuilder);
+}
+
+
+void AToolsFrameworkDemoGameModeBase::ShutdownToolsSystem()
+{
+	// TODO: implement this
+	check(false);
+}
+
+
+void AToolsFrameworkDemoGameModeBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (ToolsSystem)
+	{
+		ToolsSystem->Tick(DeltaTime);
+	}
+}
+
+
+
